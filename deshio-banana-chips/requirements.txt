@@ -1,2 +1,4 @@
-Flask>=3.1,<4
-Werkzeug>=3.1,<4
+Flask<4,>=3.1
+Werkzeug<4,>=3.1
+blinker>=1.9.0
+gunicorn
