@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Banana Bliss{% endblock %}</title><meta name="description" content="Banana Bliss online snack store">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}"></head>
+<body>
+<div class="topbar">🚚 Free delivery on orders above ₹499 <span>•</span> Freshly packed snacks from Maharashtra</div>
+<header><div class="container nav">
+<a class="logo" href="{{url_for('home')}}"><span>🍌</span><b>Banana Bliss</b></a>
+<form class="search" action="{{url_for('products')}}"><input name="q" value="{{request.args.get('q','')}}" placeholder="Search banana chips, combos, flavours..."><button>⌕</button></form>
+<nav>
+<a href="{{url_for('products')}}">Shop</a>
+{% if current_user %}<a href="{{url_for('wishlist')}}">♡ Wishlist</a><a href="{{url_for('orders')}}">Orders</a>{% else %}<a href="{{url_for('login')}}">Login</a>{% endif %}
+<a class="cart" href="{{url_for('cart')}}">🛒 <span id="cartCount">{{cart_count}}</span></a>
+{% if current_user and current_user.is_admin %}<a href="{{url_for('admin')}}">Admin</a>{% endif %}
+</nav></div></header>
+<div class="catbar"><div class="container catlinks">{% for n,slug,icon in categories %}<a href="{{url_for('products',category=slug)}}">{{icon}} {{n}}</a>{% endfor %}</div></div>
+{% with msgs=get_flashed_messages(with_categories=true) %}{% if msgs %}<div class="container flashes">{% for cat,msg in msgs %}<div class="flash {{cat}}">{{msg}}</div>{% endfor %}</div>{% endif %}{% endwith %}
+{% block content %}{% endblock %}
+<footer><div class="container footgrid"><div><div class="logo light">🍌 <b>Banana Bliss</b></div><p>Premium banana chips and crunchy snacks, packed fresh.</p></div><div><h4>Shop</h4><a href="{{url_for('products')}}">All Products</a><a href="{{url_for('products',category='combo')}}">Combo Packs</a><a href="{{url_for('products',category='family')}}">Family Packs</a></div><div><h4>Account</h4>{% if current_user %}<a href="{{url_for('orders')}}">My Orders</a><a href="{{url_for('wishlist')}}">Wishlist</a><a href="{{url_for('logout')}}">Logout</a>{% else %}<a href="{{url_for('login')}}">Login</a><a href="{{url_for('register')}}">Create Account</a>{% endif %}</div><div><h4>Support</h4><p>📞 +91 XXXXX XXXXX</p><p>✉️ hello@bananabliss.in</p><p>📍 Maharashtra, India</p></div></div><div class="container copyright">© 2026 Banana Bliss • Built as a full-stack marketplace starter</div></footer>
+<div id="toast" class="toast"></div><script src="{{url_for('static',filename='js/app.js')}}"></script></body></html>
